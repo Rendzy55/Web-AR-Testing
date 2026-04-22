@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const model = gltf.scene;
       
       // Scale and position the model as needed
-      model.scale.set(0.2, 0.2, 0.2);
+      model.scale.set(1, 1, 1); // Increased scale for debugging
       model.position.set(0, -0.4, 0);
 
       // Add the model to the anchor
