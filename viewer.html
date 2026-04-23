@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Model 3D - Laptop</title>
+  <link rel="icon" type="image/png" href="./assets/models/laptop/thumbnail.png" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="src/css/style.css" />
+</head>
+<body>
+  <main class="viewer-page">
+    <div class="viewer-topbar">
+      <a class="back-link" href="index.html">← Kembali ke galeri</a>
+      <h1 id="viewer-title" class="viewer-title">3D Viewer</h1>
+    </div>
+
+    <section class="viewer-canvas-wrap" aria-label="3D model viewer">
+      <div id="viewer-canvas"></div>
+      <div id="viewer-status" class="viewer-status">Memuat model 3D...</div>
+    </section>
+
+    <section class="desc-box">
+      <h2>Deskripsi Objek</h2>
+      <p id="viewer-description">
+        Ini adalah model 3D laptop untuk kebutuhan presentasi produk/interaktif.
+        Anda bisa drag untuk memutar model, scroll untuk zoom, dan geser kanan untuk mengubah sudut pandang.
+      </p>
+    </section>
+  </main>
+
+  <script type="module" src="src/js/common.js"></script>
+  <script type="module" src="src/js/common.js"></script>
+  <script type="module" src="src/js/viewer.js"></script>
+</body>
+</html>
