@@ -58,6 +58,28 @@ class BackgroundMusic {
     isMuted() {
         return this.audio.muted;
     }
+
+    setVolume(volume, duration = 0.5) {
+        if (duration === 0) {
+            this.audio.volume = volume;
+            return;
+        }
+
+        const startVol = this.audio.volume;
+        const steps = 20;
+        const stepTime = (duration * 1000) / steps;
+        const volStep = (volume - startVol) / steps;
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+            currentStep++;
+            this.audio.volume = Math.max(0, Math.min(1, startVol + (volStep * currentStep)));
+            if (currentStep >= steps) {
+                clearInterval(interval);
+                this.audio.volume = volume;
+            }
+        }, stepTime);
+    }
 }
 
 export const musicPlayer = new BackgroundMusic('src/music/backsound-angklung.mp3');

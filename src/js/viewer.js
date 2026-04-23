@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MODEL_CATALOG } from './catalog.js';
+import { musicPlayer } from './music.js';
 
 const params = new URLSearchParams(window.location.search);
 const firstItemKey = Object.keys(MODEL_CATALOG)[0];
@@ -15,6 +16,69 @@ const descEl = document.getElementById('viewer-description');
 
 if (titleEl) titleEl.textContent = `${selectedModel.title} 3D Viewer`;
 if (descEl) descEl.textContent = selectedModel.description;
+
+// Add Play Sound Button if sound effect exists
+if (selectedModel.soundEffect) {
+  const soundBtn = document.createElement('button');
+  soundBtn.className = 'play-sound-btn';
+  soundBtn.innerHTML = `<span class="icon">🔊</span> Dengarkan Suaranya!`;
+  
+  const audio = new Audio(selectedModel.soundEffect);
+  
+  soundBtn.addEventListener('click', () => {
+    // Turunkan volume backsound ke 5% dengan transisi cepat (0.3 detik)
+    musicPlayer.setVolume(0.05, 0.3);
+
+    // Beri selah 0.8 detik (gap) agar telinga anak siap mendengarkan suara alat musik baru
+    setTimeout(() => {
+      audio.currentTime = 0;
+      audio.play().catch(err => {
+        console.log("Gagal memutar suara:", err);
+        musicPlayer.setVolume(1, 0.3); // Kembalikan volume jika gagal play
+      });
+    }, 800);
+
+    // Ketika sound effect selesai
+    audio.onended = () => {
+      // Tunggu 1 detik setelah suara habis agar kesan suaranya tidak terpotong (gap akhir)
+      setTimeout(() => {
+        musicPlayer.setVolume(1, 0.4);
+      }, 1000);
+    };
+    
+    // Animasi klik
+    soundBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => soundBtn.style.transform = '', 100);
+  });
+
+  // Sisipkan sebelum deskripsi
+  const descBox = document.querySelector('.desc-box');
+  if (descBox) {
+    descBox.insertBefore(soundBtn, descEl);
+  }
+}
+
+// Check if the model is an external embed (like Sketchfab)
+if (selectedModel.isEmbed) {
+  statusEl.classList.add('hidden');
+  container.innerHTML = `
+    <iframe 
+      title="${selectedModel.title}" 
+      frameborder="0" 
+      allowfullscreen 
+      mozallowfullscreen="true" 
+      webkitallowfullscreen="true" 
+      allow="autoplay; fullscreen; xr-spatial-tracking" 
+      xr-spatial-tracking 
+      execution-while-out-of-viewport 
+      execution-while-not-rendered 
+      web-share 
+      src="${selectedModel.embedUrl}"
+      style="width: 100%; height: 100%; border-radius: 20px;">
+    </iframe>`;
+  // Stop Three.js initialization for embedded models
+  throw new Error('Using Sketchfab Embed - Three.js skip intentional');
+}
 
 const scene = new THREE.Scene();
 scene.background = null;

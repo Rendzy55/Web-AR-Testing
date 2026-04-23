@@ -1,0 +1,21 @@
+# Git Ignore - Sasaka Sunda
+# Abaikan file sistem dan file konfigurasi lokal
+
+# Sistem Operasi
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# File Skrip Otomatis (Berisi Token Rahasia)
+push_project.bat
+
+# Folder Cache atau Temporary
+.vscode/
+.idea/
+*.log
+
+# File Backup atau Sampah
+*.tmp
+*.bak
+*.old
+*~
